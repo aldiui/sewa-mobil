@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <div class="form-group">
                                                     <label for="bulan_filter" class="form-label">Bulan</label>
                                                     <select name="bulan_filter" id="bulan_filter" class="form-control">
@@ -80,7 +80,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6 mb-3">
                                                 <div class="form-group">
                                                     <label for="tahun_filter" class="form-label">Tahun</label>
                                                     <select name="tahun_filter" id="tahun_filter" class="form-control">
@@ -90,6 +90,25 @@
                                                             </option>
                                                         @endfor
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped" id="laporan-table"
+                                                        width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" width="5%">#</th>
+                                                                <th scope="col" width="10%">Foto</th>
+                                                                <th scope="col">Kode Pengembalian</th>
+                                                                <th scope="col">Mobil</th>
+                                                                <th scope="col">Biaya Sewa</th>
+                                                                <th scope="col">Aksi</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,6 +165,45 @@
                     name: 'aksi'
                 },
             ]);
+
+            let laporanTableInitialized = false;
+
+            $("#laporan-tab").on("click", function() {
+                if (!laporanTableInitialized) {
+                    datatableCall('laporan-table', '{{ route('laporan.index') }}', [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'img',
+                            name: 'img'
+                        },
+                        {
+                            data: 'kode_peminjaman',
+                            name: 'kode_peminjaman'
+                        },
+                        {
+                            data: 'mobil',
+                            name: 'mobil'
+                        },
+                        {
+                            data: 'biaya',
+                            name: 'biaya'
+                        },
+                        {
+                            data: 'detail',
+                            name: 'detail'
+                        }
+                    ]);
+
+                    laporanTableInitialized = true;
+                }
+            });
+
+
+            $("#bulan_filter, #tahun_filter").on("change", function() {
+                $("#laporan-table").DataTable().ajax.reload();
+            });
 
             $("#saveData").submit(function(e) {
                 setButtonLoadingState("#saveData .btn.btn-success", true);

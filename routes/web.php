@@ -28,4 +28,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('/mobil', App\Http\Controllers\MobilController::class)->names('mobil');
     Route::resource('/peminjaman', App\Http\Controllers\PeminjamanController::class)->names('peminjaman');
     Route::resource('/pengembalian', App\Http\Controllers\PengembalianController::class)->names('pengembalian');
+    Route::resource('/laporan', App\Http\Controllers\LaporanController::class)->names('laporan');
 });

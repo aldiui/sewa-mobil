@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Mobil;
+use App\Models\Pengembalian;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,5 +24,10 @@ class Peminjaman extends Model
     public function mobil()
     {
         return $this->belongsTo(Mobil::class);
+    }
+
+    public function pengembalian()
+    {
+        return $this->hasOne(Pengembalian::class);
     }
 }
