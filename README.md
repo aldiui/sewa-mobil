@@ -1,4 +1,4 @@
-<p align="center">j
+<p align="center">
   <a href="https://laravel.com/">
     <img src="https://laravel.com/img/logomark.min.svg" alt="laravel logo" width="75" height="75">
   </a>
