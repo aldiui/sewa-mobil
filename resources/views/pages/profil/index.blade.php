@@ -121,6 +121,8 @@
                     $('#image').parent().find(".dropify-clear").trigger('click');
                     setButtonLoadingState("#updateData .btn.btn-success", false,
                         "<i class='fas fa-save mr-2'></i>Simpan");
+                    $(".img-navbar").css("background-image",
+                        `url('/storage/image/user/${response.data.image}')`);
                     handleSuccess(response, null, null, "no");
                 };
 

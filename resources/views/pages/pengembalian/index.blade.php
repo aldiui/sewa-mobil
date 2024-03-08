@@ -33,8 +33,8 @@
                                                 <th scope="col">Kode Pengembalian</th>
                                                 <th scope="col">Mobil</th>
                                                 <th scope="col">Tanggal Pengembalian</th>
-                                                <th scope="col">Jumlah Hari</th>
                                                 <th scope="col">Biaya Sewa</th>
+                                                <th scope="col">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,6 +49,7 @@
         </section>
     </div>
     @include('pages.pengembalian.modal')
+    @include('pages.pengembalian.show')
 @endsection
 
 @push('scripts')
@@ -80,12 +81,12 @@
                     name: 'tanggal'
                 },
                 {
-                    data: 'jumlah_hari',
-                    name: 'jumlah_hari'
-                },
-                {
                     data: 'biaya',
                     name: 'biaya'
+                },
+                {
+                    data: 'detail',
+                    name: 'detail'
                 }
             ]);
         });

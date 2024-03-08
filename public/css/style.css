@@ -3677,3 +3677,13 @@ textarea{
   height: 300px; 
   width: 100%;
 }
+
+
+.img-navbar {
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+

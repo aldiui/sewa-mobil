@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Mobil;
 use App\Models\Peminjaman;
-use App\Models\Pengembalian;
 use App\Traits\ApiResponder;
 use DataTables;
 use Illuminate\Http\Request;
@@ -34,8 +33,15 @@ class PeminjamanController extends Controller
                     ->addColumn('tanggal', function ($peminjaman) {
                         return formatTanggal($peminjaman->tanggal_mulai) . ' - ' . formatTanggal($peminjaman->tanggal_selesai);
                     })
+                    ->addColumn('status', function ($peminjaman) {
+                        return statusPeminjaman($peminjaman->status);
+                    })
+                    ->addColumn('detail', function ($peminjaman) {
+                        return '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModal\', \'/peminjaman/' . $peminjaman->id . '\')"><i class="fas fa-info-circle"></i></button>';
+                    })
+
                     ->addIndexColumn()
-                    ->rawColumns(['img', 'mobil', 'tanggal'])
+                    ->rawColumns(['img', 'mobil', 'tanggal', 'status', 'detail'])
                     ->make(true);
             } elseif ($request->input("nomor_plat")) {
                 // untuk mengecek data peminjaman berdasarkan nomor plat
@@ -47,14 +53,15 @@ class PeminjamanController extends Controller
                         ->where("status", "0")
                         ->latest()
                         ->first();
-                    $cekPengembalian = Pengembalian::where("peminjaman_id", $peminjaman->id)->first();
 
-                    if ($peminjaman && !$cekPengembalian) {
-                        return view('pages.peminjaman.show', compact('peminjaman'))->render();
+                    if (!$peminjaman || $peminjaman->tanggal_mulai == date('Y-m-d')) {
+                        return view('pages.peminjaman.detail', ['peminjaman' => null])->render();
                     }
-                }
 
-                return view('pages.peminjaman.show', ['peminjaman' => null])->render();
+                    $mode = "pengembalian";
+                    return view('pages.peminjaman.detail', compact('peminjaman', 'mode'))->render();
+                }
+                return view('pages.peminjaman.detail', ['peminjaman' => null])->render();
             }
 
         }
@@ -81,7 +88,7 @@ class PeminjamanController extends Controller
 
         $cekMobilSendiri = Mobil::where('id', $mobilId)->where('user_id', Auth::user()->id)->first();
         if ($cekMobilSendiri) {
-            return $this->errorResponse(null, 'Anda tidak dapat menyewa mobil sendiri.', 422);
+            return $this->errorResponse(null, 'Anda tidak dapat menyewa mobil sendiri.');
         }
 
         $cekMobilPinjaman = Peminjaman::where('mobil_id', $mobilId)
@@ -94,7 +101,7 @@ class PeminjamanController extends Controller
             ->first();
 
         if ($cekMobilPinjaman) {
-            return $this->errorResponse(null, 'Mobil sedang dipinjam.', 422);
+            return $this->errorResponse(null, 'Mobil sedang dipinjam.');
         }
 
         $peminjaman = Peminjaman::create([
@@ -105,6 +112,23 @@ class PeminjamanController extends Controller
             'peminjam_id' => Auth::user()->id,
         ]);
 
-        return $this->successResponse($peminjaman, 'Peminjaman Mobil di Proses.', 201);
+        return $this->successResponse($peminjaman, 'Peminjaman Mobil berhasil.', 201);
     }
+
+    public function show($id)
+    {
+        $peminjaman = Peminjaman::with("mobil")
+            ->where("id", $id)
+            ->where("peminjam_id", Auth::user()->id)
+            ->first();
+
+        if (!$peminjaman) {
+            return $this->errorResponse(null, 'Data Peminjaman tidak ditemukan.', 404);
+        }
+
+        $mode = null;
+
+        return view('pages.peminjaman.detail', compact('peminjaman', 'mode'));
+    }
+
 }

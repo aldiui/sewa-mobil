@@ -93,16 +93,6 @@ const getModal = (targetId, url = null, fields = null) => {
     $(`#${targetId} .form-control`).val("");
 };
 
-const getModalDetailMobil = (targetId, kode) => {
-    $(`#${targetId}`).modal("show");
-
-    $.ajax({
-        url: `/sewa-mobil/${kode}`,
-    }).done(function (data) {
-        $("#detail").html(data);
-    });
-};
-
 const formatRupiah = (angka) => {
     var reverse = angka.toString().split("").reverse().join(""),
         ribuan = reverse.match(/\d{1,3}/g);
@@ -232,20 +222,46 @@ const getMenus = (page) => {
         $("#mobils").html(data);
     });
 };
-
 const cariPlatNomor = () => {
-    const platNomor = $("#nomor_plat").val();
+    const platNomor = $("#nomor_plat").val().trim();
     const url = "/peminjaman?nomor_plat=" + platNomor;
 
-    if (platNomor !== "") {
+    if (platNomor !== "" && platNomor !== null) {
         $.ajax({
             url,
-        }).done(function (data) {
-            $("#data-pengembalian").html(data);
-        });
+        })
+            .done(function (data) {
+                $("#data-pengembalian").html(data);
+            })
+            .fail(function (data) {
+                if (data.responseJSON && data.responseJSON.message) {
+                    handleSimpleError(data.responseJSON.message);
+                } else {
+                    handleSimpleError("Terjadi kesalahan pada server.");
+                }
+            });
     }
 };
+
 const cleanModal = () => {
     $("#nomor_plat").val("");
     $("#data-pengembalian").empty();
+};
+
+const getModalDetail = (targetId, url) => {
+    $(`#${targetId}`).modal("show");
+
+    $.ajax({
+        url,
+    })
+        .done(function (data) {
+            $("#detail").html(data);
+        })
+        .fail(function (data) {
+            if (data.responseJSON && data.responseJSON.message) {
+                handleSimpleError(data.responseJSON.message);
+            } else {
+                handleSimpleError("Terjadi kesalahan pada server.");
+            }
+        });
 };

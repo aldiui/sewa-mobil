@@ -34,11 +34,14 @@ class PengembalianController extends Controller
                         return formatTanggal($pengembalian->created_at);
                     })
                     ->addColumn('biaya', function ($pengembalian) {
-                        return formatRupiah($pengembalian->biaya_sewa);
+                        return formatRupiah($pengembalian->biaya_sewa + $pengembalian->denda_sewa);
+                    })
+                    ->addColumn('detail', function ($pengembalian) {
+                        return '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModal\', \'/pengembalian/' . $pengembalian->id . '\')"><i class="fas fa-info-circle"></i></button>';
                     })
 
                     ->addIndexColumn()
-                    ->rawColumns(['img', 'mobil', 'tanggal'])
+                    ->rawColumns(['img', 'mobil', 'tanggal', 'detail'])
                     ->make(true);
             }
         }
@@ -52,7 +55,9 @@ class PengembalianController extends Controller
         $validator = Validator::make($request->all(), [
             'peminjaman_id' => 'required|exists:peminjamans,id',
             'jumlah_hari' => 'required|numeric',
+            'jumlah_denda_hari' => 'required|numeric',
             'biaya_sewa' => 'required|numeric',
+            'denda_sewa' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -65,7 +70,9 @@ class PengembalianController extends Controller
             'kode_pengembalian' => 'KBL_' . strtoupper(uniqid()),
             'peminjaman_id' => $peminjaman->id,
             'jumlah_hari' => $request->input('jumlah_hari'),
+            'jumlah_denda_hari' => $request->input('jumlah_denda_hari'),
             'biaya_sewa' => $request->input('biaya_sewa'),
+            'denda_sewa' => $request->input('denda_sewa'),
             'peminjam_id' => Auth::user()->id,
         ]);
 
@@ -74,6 +81,20 @@ class PengembalianController extends Controller
             'tanggal_pengembalian' => $pengembalian->created_at,
         ]);
 
-        return $this->successResponse($pengembalian, 'Pengembalian Mobil di Proses.', 201);
+        return $this->successResponse($pengembalian, 'Pengembalian Mobil berhasil.', 201);
+    }
+
+    public function show($id)
+    {
+        $pengembalian = Pengembalian::with("peminjaman")
+            ->where("id", $id)
+            ->where("peminjam_id", Auth::user()->id)
+            ->first();
+
+        if (!$pengembalian) {
+            return $this->errorResponse(null, 'Data Pengembalian tidak ditemukan.', 404);
+        }
+
+        return view('pages.pengembalian.detail', compact('pengembalian'));
     }
 }

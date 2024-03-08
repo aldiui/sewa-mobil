@@ -28,6 +28,8 @@
                                                 <th scope="col">Kode Peminjaman</th>
                                                 <th scope="col">Mobil</th>
                                                 <th scope="col">Tanggal</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -41,6 +43,7 @@
             </div>
         </section>
     </div>
+    @include('pages.peminjaman.show')
 @endsection
 
 @push('scripts')
@@ -71,6 +74,14 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'detail',
+                    name: 'detail'
                 },
             ]);
         });

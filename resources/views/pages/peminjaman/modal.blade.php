@@ -29,6 +29,14 @@
                             name="tanggal_selesai">
                         <small class="invalid-feedback" id="errortanggal_selesai"></small>
                     </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="konfirmasi" required>
+                            <label class="form-check-label" for="konfirmasi">
+                                Saya Yakin untuk Menyewa Mobil Ini
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i

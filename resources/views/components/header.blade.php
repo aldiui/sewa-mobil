@@ -8,8 +8,9 @@
         @if (Auth::user())
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown"><a href="#" data-toggle="dropdown"
-                        class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                        class="nav-link dropdown-toggle nav-link-lg nav-link-user d-flex justify-content-center align-items-center">
+                        <div style="background-image: url('{{ asset(Auth::user()->image != null ? '/storage/image/user/' . Auth::user()->image : '/img/avatar/avatar-1.png') }}');"
+                            class="img-navbar d-block mr-3"></div>
                         <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->nama }}</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">

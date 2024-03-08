@@ -57,17 +57,19 @@
     <script src="{{ asset('library/sweetalert/dist/sweetalert.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#search, #status').on('input change', function() {
+
+    @if (Auth::user())
+        <script>
+            $(document).ready(function() {
+                $('#search, #status').on('input change', function() {
+                    getMenus(1);
+                });
+
                 getMenus(1);
-            });
 
-            getMenus(1);
-
-            @if (Auth::user())
                 $("#saveData").submit(function(e) {
                     setButtonLoadingState("#saveData .btn.btn-success", true, "Sewa Mobil");
+
                     e.preventDefault();
                     const kode = $("#saveData #id").val();
                     const url = "{{ route('peminjaman.store') }}";
@@ -90,7 +92,18 @@
 
                     ajaxCall(url, "POST", data, successCallback, errorCallback);
                 });
-            @endif
-        });
-    </script>
+            });
+        </script>
+    @else
+        <script>
+            $(document).ready(function() {
+                $('#search, #status').on('input change', function() {
+                    getMenus(1);
+                });
+
+                getMenus(1);
+
+            })
+        </script>
+    @endif
 @endpush

@@ -27,7 +27,7 @@
     <div id="app">
         <section class="section text-dark">
             <div class="d-flex align-items-stretch flex-wrap">
-                <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white">
+                <div class="col-lg-4 col-md-6 col-12 order-lg-1 min-vh-100 order-2 bg-white ">
                     <div class="m-3 px-4 py-5">
                         <div class="mb-3 text-center">
                             <i class="fas fa-car custom-size-icon text-primary"></i>

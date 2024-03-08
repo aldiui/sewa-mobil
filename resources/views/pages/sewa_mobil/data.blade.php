@@ -25,12 +25,12 @@
                                 Tersedia</button>
                         @endif
                         <button class="btn btn-info" title="Detail {{ $mobil->merek . ' - ' . $mobil->model }}"
-                            onclick="getModalDetailMobil('showModal', {{ $mobil->id }})"><i
+                            onclick="getModalDetail('showModal', '/sewa-mobil/{{ $mobil->id }}')"><i
                                 class="fas fa-info-circle"></i></button>
                     @else
                         <button class="btn btn-info btn-block"
                             title="Detail {{ $mobil->merek . ' - ' . $mobil->model }}"
-                            onclick="getModalDetailMobil('showModal', {{ $mobil->id }})"><i
+                            onclick="getModalDetail('showModal', '/sewa-mobil/{{ $mobil->id }}')"><i
                                 class="fas fa-info-circle mr-2"></i>Detail</button>
                     @endif
                 </div>

@@ -42,13 +42,12 @@ class SewaMobilController extends Controller
     // Function untuk menampilkan data sewa mobil
     public function show($id)
     {
-
         $mobil = Mobil::with('user')->find($id);
 
         if (!$mobil) {
             return $this->errorResponse(null, 'Data Mobil tidak ditemukan.', 404);
         }
 
-        return view('pages.sewa_mobil.show', compact('mobil'))->render();
+        return view('pages.sewa_mobil.detail', compact('mobil'))->render();
     }
 }

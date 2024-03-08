@@ -34,6 +34,17 @@ if (!function_exists('hitungSelisihHari')) {
         $selesai = new \DateTime($tanggalSelesai);
         $selisih = $mulai->diff($selesai);
 
-        return $selisih->days + 1;
+        return $selisih->days;
+    }
+}
+
+if (!function_exists('statusPeminjaman')) {
+    function statusPeminjaman($status, $message = null)
+    {
+        if ($message) {
+            return $status == "0" ? '<span class="badge text-white bg-warning"><i class="fas fa-exclamation-triangle mr-2"></i>Belum Selesai</span>' : '<span class="badge text-white bg-success"><i class="fas fa-check-circle  mr-2"></i>Selesai</span>';
+        }
+
+        return $status == "0" ? '<span class="badge text-white bg-warning"><i class="fas fa-exclamation-triangle "></i></span>' : '<span class="badge text-white bg-success"><i class="fas fa-check-circle "></i></span>';
     }
 }
