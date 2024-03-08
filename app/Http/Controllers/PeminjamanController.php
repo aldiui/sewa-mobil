@@ -115,6 +115,7 @@ class PeminjamanController extends Controller
         return $this->successResponse($peminjaman, 'Peminjaman Mobil berhasil.', 201);
     }
 
+    // Function untuk menampilkan data peminjaman
     public function show($id)
     {
         $peminjaman = Peminjaman::with("mobil")

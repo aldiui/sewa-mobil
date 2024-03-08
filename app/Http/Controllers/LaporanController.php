@@ -15,7 +15,7 @@ class LaporanController extends Controller
 {
     use ApiResponder;
 
-    // Function untuk menampilkan data pengembalian
+    // Function untuk menampilkan data laporan
     public function index(Request $request)
     {
         $bulan = $request->input("bulan");
@@ -30,7 +30,7 @@ class LaporanController extends Controller
                 ->latest()
                 ->get();
 
-            // Jika ada input mode dengan value datatable menampilkan data pengembalian dari user login
+            // Jika ada input mode dengan value datatable menampilkan data laporan dari user login
             if ($request->input("mode") == "datatable") {
                 return DataTables::of($peminjamans)
                     ->addColumn('img', function ($peminjaman) {
@@ -58,6 +58,8 @@ class LaporanController extends Controller
             }
 
         }
+
+        // jika ada input mode pdf makan akan menampilkan lapora reka sewa
         if ($request->input("mode") == "pdf") {
             $peminjamans = Peminjaman::with(['mobil', 'peminjam'])
                 ->whereHas('mobil', function ($query) {
@@ -90,6 +92,7 @@ class LaporanController extends Controller
         }
     }
 
+    // function untuk melihhat detail penyewa yang menggunakan mobil rental
     public function show($id)
     {
         $peminjaman = Peminjaman::with(['mobil', 'peminjam'])

@@ -84,6 +84,7 @@ class PengembalianController extends Controller
         return $this->successResponse($pengembalian, 'Pengembalian Mobil berhasil.', 201);
     }
 
+    // function untuk melihat detail peminjaman
     public function show($id)
     {
         $pengembalian = Pengembalian::with("peminjaman")

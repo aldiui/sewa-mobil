@@ -46,7 +46,7 @@ class ProfilController extends Controller
             ];
 
             if ($request->hasFile('image')) {
-                if ($user->image != 'default.png' && Storage::exists('public/image/user/' . $user->image)) {
+                if (torage::exists('public/image/user/' . $user->image)) {
                     Storage::delete('public/image/user/' . $user->image);
                 }
                 $image = $request->file('image')->hashName();
