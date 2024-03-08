@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
 use App\Traits\ApiResponder;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +56,37 @@ class LaporanController extends Controller
                     ->rawColumns(['img', 'mobil', 'tanggal', 'detail'])
                     ->make(true);
             }
+
+        }
+        if ($request->input("mode") == "pdf") {
+            $peminjamans = Peminjaman::with(['mobil', 'peminjam'])
+                ->whereHas('mobil', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
+                ->whereMonth('created_at', $bulan)
+                ->whereYear('created_at', $tahun)
+                ->latest()
+                ->get();
+
+            $bulanTahun = Carbon::create($tahun, $bulan, 1)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('F Y');
+
+            $pdf = PDF::loadView('pages.laporan.pdf', compact('peminjamans', 'bulanTahun'));
+
+            $options = [
+                'margin_top' => 20,
+                'margin_right' => 20,
+                'margin_bottom' => 20,
+                'margin_left' => 20,
+            ];
+
+            $pdf->setOptions($options);
+            $pdf->setPaper('legal', 'landscape');
+
+            $namaFile = 'laporan_penyewaan_' . $bulan . '_' . $tahun . '.pdf';
+
+            ob_end_clean();
+            ob_start();
+            return $pdf->stream($namaFile);
         }
     }
 

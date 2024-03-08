@@ -93,6 +93,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
+                                                <div class="mb-3">
+                                                    <a id="downloadPdf" class="btn btn-sm px-3 btn-danger mr-1"
+                                                        target="_blank"><i class="fas fa-file-pdf mr-2"></i>Pdf</a>
+                                                </div>
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered table-striped" id="laporan-table"
                                                         width="100%">
@@ -172,6 +176,7 @@
 
             $("#laporan-tab").on("click", function() {
                 if (!laporanTableInitialized) {
+                    renderData();
                     datatableCall('laporan-table', '{{ route('laporan.index') }}', [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -209,6 +214,7 @@
 
             $("#bulan_filter, #tahun_filter").on("change", function() {
                 $("#laporan-table").DataTable().ajax.reload();
+                renderData();
             });
 
             $("#saveData").submit(function(e) {
@@ -243,5 +249,11 @@
             });
 
         });
+
+        const renderData = () => {
+            const downloadPdf =
+                `/laporan?mode=pdf&bulan=${$("#bulan_filter").val()}&tahun=${$("#tahun_filter").val()}`;
+            $("#downloadPdf").attr("href", downloadPdf);
+        }
     </script>
 @endpush
