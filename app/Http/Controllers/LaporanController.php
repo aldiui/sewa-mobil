@@ -40,11 +40,14 @@ class LaporanController extends Controller
                     ->addColumn('tanggal', function ($peminjaman) {
                         return formatTanggal($peminjaman->created_at);
                     })
+                    ->addColumn('peminjam', function ($peminjaman) {
+                        return $peminjaman->peminjam->nama;
+                    })
                     ->addColumn('biaya', function ($peminjaman) {
-                        return formatRupiah($peminjaman->biaya_sewa + $peminjaman->denda_sewa);
+                        return formatRupiah($peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa);
                     })
                     ->addColumn('detail', function ($peminjaman) {
-                        return '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModal\', \'/pengembalian/' . $peminjaman->id . '\')"><i class="fas fa-info-circle"></i></button>';
+                        return '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModalSewa\', \'/laporan/' . $peminjaman->id . '\')"><i class="fas fa-info-circle"></i></button>';
                     })
 
                     ->addIndexColumn()
@@ -52,5 +55,20 @@ class LaporanController extends Controller
                     ->make(true);
             }
         }
+    }
+
+    public function show($id)
+    {
+        $peminjaman = Peminjaman::with(['mobil', 'peminjam'])
+            ->where("id", $id)
+            ->first();
+
+        if (!$peminjaman) {
+            return $this->errorResponse(null, 'Data Peminjaman tidak ditemukan.', 404);
+        }
+
+        $mode = null;
+
+        return view('pages.laporan.detail', compact('peminjaman'));
     }
 }

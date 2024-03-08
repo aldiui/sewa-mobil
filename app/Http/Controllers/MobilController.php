@@ -26,11 +26,12 @@ class MobilController extends Controller
             if ($request->input("mode") == "datatable") {
                 return DataTables::of($mobils)
                     ->addColumn('aksi', function ($mobil) {
-                        $detailButton = '<button class="btn btn-info mr-1" onclick="getModalDetail(`showModal`,`/sewa-mobil/' . $mobil->id . '`)"><i class="fas fa-info-circle"></i></button>';
-                        $editButton = '<button class="btn btn-warning  mr-1" onclick="getModal(`createModal`, `/mobil/' . $mobil->id . '``/mobil/' . $mobil->id . '`, [`id`, `merek`, `model`, `tipe`, `warna`, `bahan_bakar`, `tahun_keluar`, `kapasitas_penumpang`, `nomor_plat`, `tarif_sewa_perhari`, `tarif_denda_perhari`, `status`])"><i class="fas fa-edit"></i></button>';
-                        $deleteButton = '<button class="btn btn-danger " onclick="confirmDelete(`/mobil/' . $mobil->id . '`, `mobil-table`)"><i class="fas fa-trash"></i></button>';
+                        $detailButton = '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModal\',\'/sewa-mobil/' . $mobil->id . '\')"><i class="fas fa-info-circle"></i></button>';
+                        $editButton = '<button class="btn btn-warning mr-1" onclick="getModal(\'createModal\', \'/mobil/' . $mobil->id . '\', [\'id\', \'merek\', \'model\', \'tipe\', \'warna\', \'bahan_bakar\', \'tahun_keluar\', \'kapasitas_penumpang\', \'nomor_plat\', \'tarif_sewa_perhari\', \'tarif_denda_perhari\', \'status\'])"><i class="fas fa-edit"></i></button>';
+                        $deleteButton = '<button class="btn btn-danger" onclick="confirmDelete(\'/mobil/' . $mobil->id . '\', \'mobil-table\')"><i class="fas fa-trash"></i></button>';
                         return $detailButton . $editButton . $deleteButton;
                     })
+
                     ->addColumn('img', function ($mobil) {
                         return '<img src="/storage/image/mobil/' . $mobil->image . '" width="150px" alt="">';
                     })

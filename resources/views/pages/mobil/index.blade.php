@@ -100,8 +100,9 @@
                                                             <tr>
                                                                 <th scope="col" width="5%">#</th>
                                                                 <th scope="col" width="10%">Foto</th>
-                                                                <th scope="col">Kode Pengembalian</th>
+                                                                <th scope="col">Tanggal</th>
                                                                 <th scope="col">Mobil</th>
+                                                                <th scope="col">Peminjam</th>
                                                                 <th scope="col">Biaya Sewa</th>
                                                                 <th scope="col">Aksi</th>
                                                             </tr>
@@ -123,6 +124,7 @@
     </div>
     @include('pages.mobil.modal')
     @include('pages.sewa_mobil.modal')
+    @include('pages.laporan.show')
 @endsection
 
 @push('scripts')
@@ -179,12 +181,16 @@
                             name: 'img'
                         },
                         {
-                            data: 'kode_peminjaman',
-                            name: 'kode_peminjaman'
+                            data: 'tanggal',
+                            name: 'tanggal'
                         },
                         {
                             data: 'mobil',
                             name: 'mobil'
+                        },
+                        {
+                            data: 'peminjam',
+                            name: 'peminjam'
                         },
                         {
                             data: 'biaya',

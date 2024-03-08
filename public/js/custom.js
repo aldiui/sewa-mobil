@@ -255,7 +255,7 @@ const getModalDetail = (targetId, url) => {
         url,
     })
         .done(function (data) {
-            $("#detail").html(data);
+            $(`#${targetId} #detail`).html(data);
         })
         .fail(function (data) {
             if (data.responseJSON && data.responseJSON.message) {

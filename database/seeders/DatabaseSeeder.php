@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         DB::table('mobils')->insert($mobils);
 
         $peminjamans = [
-            ['kode_peminjaman' => 'PJM_65EAD65482980', 'peminjam_id' => '2', 'mobil_id' => '1', 'tanggal_mulai' => '2024-03-01', 'tanggal_selesai' => '2024-03-08', 'tanggal_pengembalian' => null, 'status' => '0'],
+            ['kode_peminjaman' => 'PJM_65EAD65482980', 'peminjam_id' => '2', 'mobil_id' => '1', 'tanggal_mulai' => '2024-03-01', 'tanggal_selesai' => '2024-03-08', 'tanggal_pengembalian' => null, 'status' => '0', 'created_at' => now()],
         ];
 
         DB::table('peminjamans')->insert($peminjamans);
