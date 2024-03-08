@@ -29,22 +29,28 @@
                     $totalSewa = 0;
                 @endphp
                 @forelse ($peminjamans as $peminjaman)
-                    <td align="center">{{ $loop->iteration }}</td>
-                    <td align="center">{{ $loop->iteration }}</td>
-                    <td align="center">{{ formatTanggal($peminjaman->created_at) }}</td>
-                    <td align="center">
-                        {{ $peminjaman->mobil->merek . ' - ' . $peminjaman->mobil->model . ' (' . $peminjaman->mobil->nomor_plat . ')' }}
-                    </td>
-                    <td align="center">{{ $peminjaman->peminjam->nama }}</td>
-                    <td align="center">
-                        {{ formatRupiah($peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa) }}
-                    </td>
+                    <tr>
+                        <td align="center">{{ $loop->iteration }}</td>
+                        <td align="center">{{ $loop->iteration }}</td>
+                        <td align="center">{{ formatTanggal($peminjaman->created_at) }}</td>
+                        <td align="center">
+                            {{ $peminjaman->mobil->merek . ' - ' . $peminjaman->mobil->model . ' (' . $peminjaman->mobil->nomor_plat . ')' }}
+                        </td>
+                        <td align="center">{{ $peminjaman->peminjam->nama }}</td>
+                        <td align="center">
+                            {{ formatRupiah($peminjaman->pengembalian ? $peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa : 0) }}
+                        </td>
+                    </tr>
                     @php
-                        $totalSewa += $peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa;
+                        $totalSewa += $peminjaman->pengembalian
+                            ? $peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa
+                            : 0;
                     @endphp
 
                 @empty
-                    <td colspan="6" align="center"> Tidak Ada Data</td>
+                    <tr>
+                        <td colspan="6" align="center"> Tidak Ada Data</td>
+                    </tr>
                 @endforelse
                 <tr>
                     <td colspan="5" align="right"><strong>Total:</strong></td>

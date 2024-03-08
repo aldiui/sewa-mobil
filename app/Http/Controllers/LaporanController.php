@@ -46,12 +46,11 @@ class LaporanController extends Controller
                         return $peminjaman->peminjam->nama;
                     })
                     ->addColumn('biaya', function ($peminjaman) {
-                        return formatRupiah($peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa);
+                        return formatRupiah($peminjaman->pengembalian ? ($peminjaman->pengembalian->biaya_sewa + $peminjaman->pengembalian->denda_sewa) : 0);
                     })
                     ->addColumn('detail', function ($peminjaman) {
                         return '<button class="btn btn-info mr-1" onclick="getModalDetail(\'showModalSewa\', \'/laporan/' . $peminjaman->id . '\')"><i class="fas fa-info-circle"></i></button>';
                     })
-
                     ->addIndexColumn()
                     ->rawColumns(['img', 'mobil', 'tanggal', 'detail'])
                     ->make(true);
