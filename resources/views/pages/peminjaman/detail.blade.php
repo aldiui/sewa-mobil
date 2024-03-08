@@ -7,6 +7,11 @@
             $tanggalSekarang > $tanggalSelesai
                 ? hitungSelisihHari($peminjaman->tanggal_mulai, $tanggalSelesai)
                 : hitungSelisihHari($peminjaman->tanggal_mulai, $tanggalSekarang);
+
+        if ($peminjaman->tanggal_mulai == $tanggalSekarang) {
+            $selisihHari = 1;
+        }
+
         $totalHarga = $selisihHari * $peminjaman->mobil->tarif_sewa_perhari;
         $selisihHariDenda =
             $tanggalSelesai < $tanggalSekarang ? hitungSelisihHari($tanggalSelesai, $tanggalSekarang) : 0;

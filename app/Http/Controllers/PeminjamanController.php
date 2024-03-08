@@ -54,7 +54,7 @@ class PeminjamanController extends Controller
                         ->latest()
                         ->first();
 
-                    if (!$peminjaman || $peminjaman->tanggal_mulai == date('Y-m-d')) {
+                    if (!$peminjaman) {
                         return view('pages.peminjaman.detail', ['peminjaman' => null])->render();
                     }
 
