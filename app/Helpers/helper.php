@@ -48,3 +48,10 @@ if (!function_exists('statusPeminjaman')) {
         return $status == "0" ? '<span class="badge text-white bg-warning"><i class="fas fa-exclamation-triangle "></i></span>' : '<span class="badge text-white bg-success"><i class="fas fa-check-circle "></i></span>';
     }
 }
+
+if (!function_exists('bulan')) {
+    function bulan()
+    {
+        return ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    }
+}

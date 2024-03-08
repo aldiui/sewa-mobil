@@ -13,33 +13,87 @@
     <div class="main-content mb-5 pb-5 text-dark">
         <section class="section">
             <div class="section-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="text-dark">Data @yield('title')</h4>
-                                <div class="ml-auto">
-                                    <button class="btn btn-success" onclick="getModal('createModal')"><i
-                                            class="fas fa-plus mr-2"></i>Tambah Mobil</button>
+                <ul class="nav nav-pills gap-1" id="myTab3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="mobil-tab" data-toggle="tab" href="#mobil" role="tab"
+                            aria-controls="mobil" aria-selected="true"><i class="fas fa-car mr-2"></i>Mobil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="laporan-tab" data-toggle="tab" href="#laporan" role="tab"
+                            aria-controls="laporan" aria-selected="true"><i class="fas fa-file-invoice mr-2"></i>Laporan</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent2">
+                    <div class="tab-pane fade show active" id="mobil" role="tabpanel" aria-labelledby="mobil-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-dark">Data @yield('title')</h4>
+                                        <div class="ml-auto">
+                                            <button class="btn btn-success" onclick="getModal('createModal')"><i
+                                                    class="fas fa-plus mr-2"></i>Tambah Mobil</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="mobil-table"
+                                                width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" width="5%">#</th>
+                                                        <th scope="col" width="15%">Foto</th>
+                                                        <th scope="col">Merek</th>
+                                                        <th scope="col">Model</th>
+                                                        <th scope="col">Nomor Plat</th>
+                                                        <th scope="col">Tarif Sewa</th>
+                                                        <th scope="col" width="20%">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-striped" id="mobil-table" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" width="5%">#</th>
-                                                <th scope="col" width="15%">Foto</th>
-                                                <th scope="col">Merek</th>
-                                                <th scope="col">Model</th>
-                                                <th scope="col">Nomor Plat</th>
-                                                <th scope="col">Tarif Sewa</th>
-                                                <th scope="col" width="20%">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="laporan" role="tabpanel" aria-labelledby="laporan-tab">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-dark">Laporan Sewa @yield('title')</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="bulan_filter" class="form-label">Bulan</label>
+                                                    <select name="bulan_filter" id="bulan_filter" class="form-control">
+                                                        @foreach (bulan() as $key => $value)
+                                                            <option value="{{ $key + 1 }}"
+                                                                {{ $key + 1 == date('m') ? 'selected' : '' }}>
+                                                                {{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="tahun_filter" class="form-label">Tahun</label>
+                                                    <select name="tahun_filter" id="tahun_filter" class="form-control">
+                                                        @for ($i = now()->year; $i >= now()->year - 4; $i--)
+                                                            <option value="{{ $i }}"
+                                                                {{ $i == date('Y') ? 'selected' : '' }}>{{ $i }}
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
